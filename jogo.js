@@ -79,12 +79,72 @@ const flappybird = {
     }
 }
 
+const mensagemGetReady = {
+    sX: 134,
+    sY: 0,
+    w: 174,
+    h: 152,
+    x: (canvas.width / 2) - 174 / 2,
+    y: 50,
+    desenha() {
+        contexto.drawImage(
+            sprites,
+            mensagemGetReady.sX, mensagemGetReady.sY,
+            mensagemGetReady.w, mensagemGetReady.h,
+            mensagemGetReady.x, mensagemGetReady.y,
+            mensagemGetReady.w, mensagemGetReady.h
+        );
+    }
+}
+
+// Telas
+
+let telaAtiva = {}
+
+function mudaTela(novaTela) {
+    telaAtiva = novaTela
+}
+
+const telas = {
+    inicio: {
+        desenha() {
+            chao.desenha()
+            planoDeFundo.desenha()
+            flappybird.desenha()
+            mensagemGetReady.desenha()
+        },
+        click() {
+            mudaTela(telas.jogo)
+        },
+        atualiza() {
+
+        }
+    },
+    jogo: {
+        desenha() {
+            chao.desenha()
+            planoDeFundo.desenha()
+            flappybird.desenha()
+
+        },
+        atualiza() {
+            flappybird.atualiza()
+        }
+    }
+}
+
 function loop() {
-    flappybird.atualiza()
-    chao.desenha()
-    planoDeFundo.desenha()
-    flappybird.desenha()
+    telaAtiva.desenha()
+    telaAtiva.atualiza()
+
     requestAnimationFrame(loop)
 }
 
+window.addEventListener('click', () => {
+    if (telaAtiva.click) {
+        telaAtiva.click()
+    }
+})
+
+mudaTela(telas.inicio)
 loop()
