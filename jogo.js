@@ -67,17 +67,23 @@ const flappybird = {
     height: 24,
     x: 10,
     y: 50,
+    velocidade: 0,
+    gravidade: 0.25,
+    atualiza() {
+        flappybird.velocidade = flappybird.velocidade + flappybird.gravidade
+        flappybird.y = flappybird.y + flappybird.velocidade
+
+    },
     desenha() {
         contexto.drawImage(sprites, flappybird.spriteX, flappybird.spriteY, flappybird.width, flappybird.height, flappybird.x, flappybird.y, flappybird.width, flappybird.height);
     }
 }
 
 function loop() {
+    flappybird.atualiza()
     chao.desenha()
     planoDeFundo.desenha()
     flappybird.desenha()
-
-    flappybird.y = flappybird.y + 1
     requestAnimationFrame(loop)
 }
 
